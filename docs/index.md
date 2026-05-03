@@ -13,4 +13,6 @@
 
 ## Features
 
--   TODO
+-   Zonal Lookup Utilities
+-   Mapping Utilities
+-   CRS Utilities
