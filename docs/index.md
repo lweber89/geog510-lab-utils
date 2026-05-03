@@ -9,7 +9,7 @@
 
 -   Free software: MIT License
 -   Documentation: <https://lweber89.github.io/geog510_lab_utils>
-    
+
 
 ## Features
 
