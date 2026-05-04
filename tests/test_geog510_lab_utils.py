@@ -2,7 +2,6 @@
 
 """Tests for `geog510_lab_utils` package."""
 
-
 import unittest
 
 from geog510_lab_utils import geog510_lab_utils
