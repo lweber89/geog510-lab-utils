@@ -14,9 +14,6 @@ class Map(ipyleaflet.Map):
         layer = ipyleaflet.TileLayer(url=url, name=basemap)
         self.add_layer(layer)
 
-    def add_layer_control(self):
-        print("You are attempting to add_layer_control")
-
     def add_geojson(self, data, hover_style=None, **kwargs):
 
         import geopandas as gpd
@@ -57,3 +54,7 @@ class Map(ipyleaflet.Map):
             raise ValueError("Invalid data type.")
 
         self.add_gdf(gdf, **kwargs)
+
+    def add_layer_control(self):
+        control = ipyleaflet.LayersControl(position="topright")
+        self.add_control(control)
