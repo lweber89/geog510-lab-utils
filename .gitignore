@@ -107,5 +107,4 @@ ENV/
 .vscode/
 
 test.ipynb
-
-./data/*
+/docs/data
