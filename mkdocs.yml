@@ -51,6 +51,7 @@ plugins:
           allow_errors: false
           ignore: ["conf.py"]
           execute_ignore: ["*ignore.ipynb"]
+          no_input: false
 
 markdown_extensions:
     - admonition
