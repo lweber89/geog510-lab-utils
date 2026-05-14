@@ -943,24 +943,24 @@ Map            (<span title="folium.folium.Map">Map</span>)
 
 
         <details class="quote">
-          <summary>Source code in <code>geog510_lab_utils\foliumap.py</code></summary>
+          <summary>Source code in <code>geog510_lab_utils/foliumap.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">Map</span><span class="p">(</span><span class="n">folium</span><span class="o">.</span><span class="n">Map</span><span class="p">):</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">zoom</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;_summary_</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initializes Map object based on folium.Map</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            center (tuple, optional): _description_. Defaults to (0, 0).</span>
-<span class="sd">            zoom (int, optional): _description_. Defaults to 2.</span>
+<span class="sd">            center (tuple, optional): Center of Map. Defaults to (0, 0).</span>
+<span class="sd">            zoom (int, optional): Initial zoom level. Defaults to 2.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">location</span><span class="o">=</span><span class="n">center</span><span class="p">,</span> <span class="n">zoom_start</span><span class="o">=</span><span class="n">zoom</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">add_geojson</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">hover_style</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;_summary_</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add GEOJSON to the map.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            data (_type_): _description_</span>
-<span class="sd">            hover_style (_type_, optional): _description_. Defaults to None.</span>
+<span class="sd">            hover_style (_type_, optional): Initial hover style. Defaults to None.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="kn">import</span><span class="w"> </span><span class="nn">geopandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">gpd</span>
@@ -978,10 +978,10 @@ Map            (<span title="folium.folium.Map">Map</span>)
         <span class="n">folium</span><span class="o">.</span><span class="n">GeoJson</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">geojson</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">add_gdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gdf</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;_summary_</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Adds GeoDataFrame to Map</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            gdf (_type_): _description_</span>
+<span class="sd">            gdf (_type_): GeoDataFrame to be added to Map</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">gdf</span> <span class="o">=</span> <span class="n">gdf</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">epsg</span><span class="o">=</span><span class="mi">4326</span><span class="p">)</span>
@@ -990,16 +990,16 @@ Map            (<span title="folium.folium.Map">Map</span>)
         <span class="bp">self</span><span class="o">.</span><span class="n">add_geojson</span><span class="p">(</span><span class="n">geojson</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">add_vector</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;_summary_</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add vector data to map.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            data (_type_): _description_</span>
+<span class="sd">            data (_type_): Can be any vector datatype supported by GeoPandas</span>
 
 <span class="sd">        Raises:</span>
-<span class="sd">            ValueError: _description_</span>
+<span class="sd">            ValueError: If datatype is not support by GeoPanda.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            _type_: _description_</span>
+<span class="sd">            _type_:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="kn">import</span><span class="w"> </span><span class="nn">geopandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">gpd</span>
 
@@ -1018,7 +1018,7 @@ Map            (<span title="folium.folium.Map">Map</span>)
         <span class="bp">self</span><span class="o">.</span><span class="n">add_gdf</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">add_layer_control</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;_summary_&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Adds Layer Control to Map&quot;&quot;&quot;</span>
         <span class="n">folium</span><span class="o">.</span><span class="n">LayerControl</span><span class="p">()</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </code></pre></div>
         </details>
@@ -1050,7 +1050,7 @@ Map            (<span title="folium.folium.Map">Map</span>)
 
     <div class="doc doc-contents ">
 
-      <p><em>summary</em></p>
+      <p>Initializes Map object based on folium.Map</p>
 
 <p><strong>Parameters:</strong></p>
 <table>
@@ -1066,25 +1066,25 @@ Map            (<span title="folium.folium.Map">Map</span>)
       <tr>
         <td><code>center</code></td>
         <td><code>tuple</code></td>
-        <td><p><em>description</em>. Defaults to (0, 0).</p></td>
+        <td><p>Center of Map. Defaults to (0, 0).</p></td>
         <td><code>(0, 0)</code></td>
       </tr>
       <tr>
         <td><code>zoom</code></td>
         <td><code>int</code></td>
-        <td><p><em>description</em>. Defaults to 2.</p></td>
+        <td><p>Initial zoom level. Defaults to 2.</p></td>
         <td><code>2</code></td>
       </tr>
   </tbody>
 </table>
         <details class="quote">
-          <summary>Source code in <code>geog510_lab_utils\foliumap.py</code></summary>
+          <summary>Source code in <code>geog510_lab_utils/foliumap.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">zoom</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;_summary_</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Initializes Map object based on folium.Map</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        center (tuple, optional): _description_. Defaults to (0, 0).</span>
-<span class="sd">        zoom (int, optional): _description_. Defaults to 2.</span>
+<span class="sd">        center (tuple, optional): Center of Map. Defaults to (0, 0).</span>
+<span class="sd">        zoom (int, optional): Initial zoom level. Defaults to 2.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">location</span><span class="o">=</span><span class="n">center</span><span class="p">,</span> <span class="n">zoom_start</span><span class="o">=</span><span class="n">zoom</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </code></pre></div>
@@ -1107,7 +1107,7 @@ Map            (<span title="folium.folium.Map">Map</span>)
 
     <div class="doc doc-contents ">
 
-      <p><em>summary</em></p>
+      <p>Adds GeoDataFrame to Map</p>
 
 <p><strong>Parameters:</strong></p>
 <table>
@@ -1123,18 +1123,18 @@ Map            (<span title="folium.folium.Map">Map</span>)
       <tr>
         <td><code>gdf</code></td>
         <td><code>_type_</code></td>
-        <td><p><em>description</em></p></td>
+        <td><p>GeoDataFrame to be added to Map</p></td>
         <td><em>required</em></td>
       </tr>
   </tbody>
 </table>
         <details class="quote">
-          <summary>Source code in <code>geog510_lab_utils\foliumap.py</code></summary>
+          <summary>Source code in <code>geog510_lab_utils/foliumap.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_gdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gdf</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;_summary_</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Adds GeoDataFrame to Map</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        gdf (_type_): _description_</span>
+<span class="sd">        gdf (_type_): GeoDataFrame to be added to Map</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">gdf</span> <span class="o">=</span> <span class="n">gdf</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">epsg</span><span class="o">=</span><span class="mi">4326</span><span class="p">)</span>
@@ -1161,7 +1161,7 @@ Map            (<span title="folium.folium.Map">Map</span>)
 
     <div class="doc doc-contents ">
 
-      <p><em>summary</em></p>
+      <p>Add GEOJSON to the map.</p>
 
 <p><strong>Parameters:</strong></p>
 <table>
@@ -1183,19 +1183,19 @@ Map            (<span title="folium.folium.Map">Map</span>)
       <tr>
         <td><code>hover_style</code></td>
         <td><code>_type_</code></td>
-        <td><p><em>description</em>. Defaults to None.</p></td>
+        <td><p>Initial hover style. Defaults to None.</p></td>
         <td><code>None</code></td>
       </tr>
   </tbody>
 </table>
         <details class="quote">
-          <summary>Source code in <code>geog510_lab_utils\foliumap.py</code></summary>
+          <summary>Source code in <code>geog510_lab_utils/foliumap.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_geojson</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">hover_style</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;_summary_</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add GEOJSON to the map.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        data (_type_): _description_</span>
-<span class="sd">        hover_style (_type_, optional): _description_. Defaults to None.</span>
+<span class="sd">        hover_style (_type_, optional): Initial hover style. Defaults to None.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="kn">import</span><span class="w"> </span><span class="nn">geopandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">gpd</span>
@@ -1231,12 +1231,12 @@ Map            (<span title="folium.folium.Map">Map</span>)
 
     <div class="doc doc-contents ">
 
-      <p><em>summary</em></p>
+      <p>Adds Layer Control to Map</p>
 
         <details class="quote">
-          <summary>Source code in <code>geog510_lab_utils\foliumap.py</code></summary>
+          <summary>Source code in <code>geog510_lab_utils/foliumap.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_layer_control</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;_summary_&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Adds Layer Control to Map&quot;&quot;&quot;</span>
     <span class="n">folium</span><span class="o">.</span><span class="n">LayerControl</span><span class="p">()</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </code></pre></div>
         </details>
@@ -1258,7 +1258,7 @@ Map            (<span title="folium.folium.Map">Map</span>)
 
     <div class="doc doc-contents ">
 
-      <p><em>summary</em></p>
+      <p>Add vector data to map.</p>
 
 <p><strong>Parameters:</strong></p>
 <table>
@@ -1274,7 +1274,7 @@ Map            (<span title="folium.folium.Map">Map</span>)
       <tr>
         <td><code>data</code></td>
         <td><code>_type_</code></td>
-        <td><p><em>description</em></p></td>
+        <td><p>Can be any vector datatype supported by GeoPandas</p></td>
         <td><em>required</em></td>
       </tr>
   </tbody>
@@ -1290,7 +1290,7 @@ Map            (<span title="folium.folium.Map">Map</span>)
   <tbody>
       <tr>
         <td><code>ValueError</code></td>
-        <td><p><em>description</em></p></td>
+        <td><p>If datatype is not support by GeoPanda.</p></td>
       </tr>
   </tbody>
 </table>
@@ -1305,23 +1305,23 @@ Map            (<span title="folium.folium.Map">Map</span>)
   <tbody>
     <tr>
       <td><code>_type_</code></td>
-      <td><p><em>description</em></p></td>
+      <td></td>
     </tr>
   </tbody>
 </table>
         <details class="quote">
-          <summary>Source code in <code>geog510_lab_utils\foliumap.py</code></summary>
+          <summary>Source code in <code>geog510_lab_utils/foliumap.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_vector</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;_summary_</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add vector data to map.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        data (_type_): _description_</span>
+<span class="sd">        data (_type_): Can be any vector datatype supported by GeoPandas</span>
 
 <span class="sd">    Raises:</span>
-<span class="sd">        ValueError: _description_</span>
+<span class="sd">        ValueError: If datatype is not support by GeoPanda.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        _type_: _description_</span>
+<span class="sd">        _type_:</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">import</span><span class="w"> </span><span class="nn">geopandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">gpd</span>
 
