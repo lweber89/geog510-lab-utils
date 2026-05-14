@@ -15,7 +15,7 @@
         <link rel="canonical" href="https://lweber89.github.io/geog510-lab-utils/geog510_lab_utils/">
       
       
-        <link rel="prev" href="../examples/intro/">
+        <link rel="prev" href="../examples/demo/">
       
       
         <link rel="next" href="../foliumap/">
@@ -507,14 +507,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../examples/intro/" class="md-nav__link">
+      <a href="../examples/demo/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Intro
+    Demo
   
 
     
@@ -939,7 +939,7 @@
 <a id="geog510_lab_utils.geog510_lab_utils"></a>
     <div class="doc doc-contents first">
 
-      <p>Main module.</p>
+      <p>Extension of ipyleaflet class Map for custom use in geog510_lab_utils</p>
 
 
 
@@ -971,21 +971,21 @@ Map            (<span title="ipyleaflet.leaflet.Map">Map</span>)
           <summary>Source code in <code>geog510_lab_utils/geog510_lab_utils.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">Map</span><span class="p">(</span><span class="n">ipyleaflet</span><span class="o">.</span><span class="n">Map</span><span class="p">):</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="p">[</span><span class="mi">20</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">zoom</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="s2">&quot;600px&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;_summary test</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize class Map based on ipyleaflet class Map</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            center (list, optional): _description_. Defaults to [20, 0].</span>
-<span class="sd">            zoom (int, optional): _description_. Defaults to 2.</span>
-<span class="sd">            height (str, optional): _description_. Defaults to &quot;600px&quot;.</span>
+<span class="sd">            center (list, optional): Initial center of map. Defaults to [20, 0].</span>
+<span class="sd">            zoom (int, optional): Initial zoom level of map. Defaults to 2.</span>
+<span class="sd">            height (str, optional): Initial height of map (in pixels). Defaults to &quot;600px&quot;.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">center</span><span class="o">=</span><span class="n">center</span><span class="p">,</span> <span class="n">zoom</span><span class="o">=</span><span class="n">zoom</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">layout</span><span class="o">.</span><span class="n">height</span> <span class="o">=</span> <span class="n">height</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">add_basemap</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">basemap</span><span class="o">=</span><span class="s2">&quot;OpenTopoMap&quot;</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;_summary_</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Adds basemap to Map based on user input.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            basemap (str, optional): _description_. Defaults to &quot;OpenTopoMap&quot;.</span>
+<span class="sd">            basemap (str, optional): Basemap. Defaults to &quot;OpenTopoMap&quot;.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">url</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ipyleaflet.basemaps.</span><span class="si">{</span><span class="n">basemap</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">build_url</span><span class="p">()</span>
@@ -993,11 +993,11 @@ Map            (<span title="ipyleaflet.leaflet.Map">Map</span>)
         <span class="bp">self</span><span class="o">.</span><span class="n">add_layer</span><span class="p">(</span><span class="n">layer</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">add_geojson</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">hover_style</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;_summary_</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;_summary_Adds GeoJson to map.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            data (_type_): _description_</span>
-<span class="sd">            hover_style (_type_, optional): _description_. Defaults to None.</span>
+<span class="sd">            data (_type_): Data dictionary representing a GeoJson file</span>
+<span class="sd">            hover_style (_type_, optional): Initial hover style of Map. Defaults to None.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="kn">import</span><span class="w"> </span><span class="nn">geopandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">gpd</span>
@@ -1016,10 +1016,10 @@ Map            (<span title="ipyleaflet.leaflet.Map">Map</span>)
         <span class="bp">self</span><span class="o">.</span><span class="n">add_layer</span><span class="p">(</span><span class="n">layer</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">add_gdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gdf</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;_summary_</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Adds GeoDataFrame to Map.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            gdf (_type_): _description_</span>
+<span class="sd">            gdf (_type_): Represents GeoDataFrame.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">gdf</span> <span class="o">=</span> <span class="n">gdf</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">epsg</span><span class="o">=</span><span class="mi">4326</span><span class="p">)</span>
@@ -1028,16 +1028,16 @@ Map            (<span title="ipyleaflet.leaflet.Map">Map</span>)
         <span class="bp">self</span><span class="o">.</span><span class="n">add_geojson</span><span class="p">(</span><span class="n">geojson</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">add_vector</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;_summary_</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Adds any vector data type supported by GeoPandas to the Map.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            data (_type_): _description_</span>
+<span class="sd">            data (_type_): Any supported data type represented by a file path or a URL.</span>
 
 <span class="sd">        Raises:</span>
-<span class="sd">            ValueError: _description_</span>
+<span class="sd">            ValueError: Provides error if data type is not supported.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            _type_: _description_</span>
+<span class="sd">            _type_: Breaks from if/elif if GeoJson is provided upon initialization.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="kn">import</span><span class="w"> </span><span class="nn">geopandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">gpd</span>
 
@@ -1056,7 +1056,7 @@ Map            (<span title="ipyleaflet.leaflet.Map">Map</span>)
         <span class="bp">self</span><span class="o">.</span><span class="n">add_gdf</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">add_layer_control</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;_summary_&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add layer control to Map&quot;&quot;&quot;</span>
         <span class="n">control</span> <span class="o">=</span> <span class="n">ipyleaflet</span><span class="o">.</span><span class="n">LayersControl</span><span class="p">(</span><span class="n">position</span><span class="o">=</span><span class="s2">&quot;topright&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">add_control</span><span class="p">(</span><span class="n">control</span><span class="p">)</span>
 </code></pre></div>
@@ -1089,7 +1089,7 @@ Map            (<span title="ipyleaflet.leaflet.Map">Map</span>)
 
     <div class="doc doc-contents ">
 
-      <p>_summary test</p>
+      <p>Initialize class Map based on ipyleaflet class Map</p>
 
 <p><strong>Parameters:</strong></p>
 <table>
@@ -1105,19 +1105,19 @@ Map            (<span title="ipyleaflet.leaflet.Map">Map</span>)
       <tr>
         <td><code>center</code></td>
         <td><code>list</code></td>
-        <td><p><em>description</em>. Defaults to [20, 0].</p></td>
+        <td><p>Initial center of map. Defaults to [20, 0].</p></td>
         <td><code>[20, 0]</code></td>
       </tr>
       <tr>
         <td><code>zoom</code></td>
         <td><code>int</code></td>
-        <td><p><em>description</em>. Defaults to 2.</p></td>
+        <td><p>Initial zoom level of map. Defaults to 2.</p></td>
         <td><code>2</code></td>
       </tr>
       <tr>
         <td><code>height</code></td>
         <td><code>str</code></td>
-        <td><p><em>description</em>. Defaults to "600px".</p></td>
+        <td><p>Initial height of map (in pixels). Defaults to "600px".</p></td>
         <td><code>&#39;600px&#39;</code></td>
       </tr>
   </tbody>
@@ -1125,12 +1125,12 @@ Map            (<span title="ipyleaflet.leaflet.Map">Map</span>)
         <details class="quote">
           <summary>Source code in <code>geog510_lab_utils/geog510_lab_utils.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="p">[</span><span class="mi">20</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">zoom</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="s2">&quot;600px&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;_summary test</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Initialize class Map based on ipyleaflet class Map</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        center (list, optional): _description_. Defaults to [20, 0].</span>
-<span class="sd">        zoom (int, optional): _description_. Defaults to 2.</span>
-<span class="sd">        height (str, optional): _description_. Defaults to &quot;600px&quot;.</span>
+<span class="sd">        center (list, optional): Initial center of map. Defaults to [20, 0].</span>
+<span class="sd">        zoom (int, optional): Initial zoom level of map. Defaults to 2.</span>
+<span class="sd">        height (str, optional): Initial height of map (in pixels). Defaults to &quot;600px&quot;.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">center</span><span class="o">=</span><span class="n">center</span><span class="p">,</span> <span class="n">zoom</span><span class="o">=</span><span class="n">zoom</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">layout</span><span class="o">.</span><span class="n">height</span> <span class="o">=</span> <span class="n">height</span>
@@ -1154,7 +1154,7 @@ Map            (<span title="ipyleaflet.leaflet.Map">Map</span>)
 
     <div class="doc doc-contents ">
 
-      <p><em>summary</em></p>
+      <p>Adds basemap to Map based on user input.</p>
 
 <p><strong>Parameters:</strong></p>
 <table>
@@ -1170,7 +1170,7 @@ Map            (<span title="ipyleaflet.leaflet.Map">Map</span>)
       <tr>
         <td><code>basemap</code></td>
         <td><code>str</code></td>
-        <td><p><em>description</em>. Defaults to "OpenTopoMap".</p></td>
+        <td><p>Basemap. Defaults to "OpenTopoMap".</p></td>
         <td><code>&#39;OpenTopoMap&#39;</code></td>
       </tr>
   </tbody>
@@ -1178,10 +1178,10 @@ Map            (<span title="ipyleaflet.leaflet.Map">Map</span>)
         <details class="quote">
           <summary>Source code in <code>geog510_lab_utils/geog510_lab_utils.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_basemap</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">basemap</span><span class="o">=</span><span class="s2">&quot;OpenTopoMap&quot;</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;_summary_</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Adds basemap to Map based on user input.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        basemap (str, optional): _description_. Defaults to &quot;OpenTopoMap&quot;.</span>
+<span class="sd">        basemap (str, optional): Basemap. Defaults to &quot;OpenTopoMap&quot;.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">url</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ipyleaflet.basemaps.</span><span class="si">{</span><span class="n">basemap</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">build_url</span><span class="p">()</span>
@@ -1207,7 +1207,7 @@ Map            (<span title="ipyleaflet.leaflet.Map">Map</span>)
 
     <div class="doc doc-contents ">
 
-      <p><em>summary</em></p>
+      <p>Adds GeoDataFrame to Map.</p>
 
 <p><strong>Parameters:</strong></p>
 <table>
@@ -1223,7 +1223,7 @@ Map            (<span title="ipyleaflet.leaflet.Map">Map</span>)
       <tr>
         <td><code>gdf</code></td>
         <td><code>_type_</code></td>
-        <td><p><em>description</em></p></td>
+        <td><p>Represents GeoDataFrame.</p></td>
         <td><em>required</em></td>
       </tr>
   </tbody>
@@ -1231,10 +1231,10 @@ Map            (<span title="ipyleaflet.leaflet.Map">Map</span>)
         <details class="quote">
           <summary>Source code in <code>geog510_lab_utils/geog510_lab_utils.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_gdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gdf</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;_summary_</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Adds GeoDataFrame to Map.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        gdf (_type_): _description_</span>
+<span class="sd">        gdf (_type_): Represents GeoDataFrame.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">gdf</span> <span class="o">=</span> <span class="n">gdf</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">epsg</span><span class="o">=</span><span class="mi">4326</span><span class="p">)</span>
@@ -1261,7 +1261,7 @@ Map            (<span title="ipyleaflet.leaflet.Map">Map</span>)
 
     <div class="doc doc-contents ">
 
-      <p><em>summary</em></p>
+      <p>_summary_Adds GeoJson to map.</p>
 
 <p><strong>Parameters:</strong></p>
 <table>
@@ -1277,13 +1277,13 @@ Map            (<span title="ipyleaflet.leaflet.Map">Map</span>)
       <tr>
         <td><code>data</code></td>
         <td><code>_type_</code></td>
-        <td><p><em>description</em></p></td>
+        <td><p>Data dictionary representing a GeoJson file</p></td>
         <td><em>required</em></td>
       </tr>
       <tr>
         <td><code>hover_style</code></td>
         <td><code>_type_</code></td>
-        <td><p><em>description</em>. Defaults to None.</p></td>
+        <td><p>Initial hover style of Map. Defaults to None.</p></td>
         <td><code>None</code></td>
       </tr>
   </tbody>
@@ -1291,11 +1291,11 @@ Map            (<span title="ipyleaflet.leaflet.Map">Map</span>)
         <details class="quote">
           <summary>Source code in <code>geog510_lab_utils/geog510_lab_utils.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_geojson</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">hover_style</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;_summary_</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;_summary_Adds GeoJson to map.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        data (_type_): _description_</span>
-<span class="sd">        hover_style (_type_, optional): _description_. Defaults to None.</span>
+<span class="sd">        data (_type_): Data dictionary representing a GeoJson file</span>
+<span class="sd">        hover_style (_type_, optional): Initial hover style of Map. Defaults to None.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="kn">import</span><span class="w"> </span><span class="nn">geopandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">gpd</span>
@@ -1332,12 +1332,12 @@ Map            (<span title="ipyleaflet.leaflet.Map">Map</span>)
 
     <div class="doc doc-contents ">
 
-      <p><em>summary</em></p>
+      <p>Add layer control to Map</p>
 
         <details class="quote">
           <summary>Source code in <code>geog510_lab_utils/geog510_lab_utils.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_layer_control</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;_summary_&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add layer control to Map&quot;&quot;&quot;</span>
     <span class="n">control</span> <span class="o">=</span> <span class="n">ipyleaflet</span><span class="o">.</span><span class="n">LayersControl</span><span class="p">(</span><span class="n">position</span><span class="o">=</span><span class="s2">&quot;topright&quot;</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">add_control</span><span class="p">(</span><span class="n">control</span><span class="p">)</span>
 </code></pre></div>
@@ -1360,7 +1360,7 @@ Map            (<span title="ipyleaflet.leaflet.Map">Map</span>)
 
     <div class="doc doc-contents ">
 
-      <p><em>summary</em></p>
+      <p>Adds any vector data type supported by GeoPandas to the Map.</p>
 
 <p><strong>Parameters:</strong></p>
 <table>
@@ -1376,7 +1376,7 @@ Map            (<span title="ipyleaflet.leaflet.Map">Map</span>)
       <tr>
         <td><code>data</code></td>
         <td><code>_type_</code></td>
-        <td><p><em>description</em></p></td>
+        <td><p>Any supported data type represented by a file path or a URL.</p></td>
         <td><em>required</em></td>
       </tr>
   </tbody>
@@ -1392,7 +1392,7 @@ Map            (<span title="ipyleaflet.leaflet.Map">Map</span>)
   <tbody>
       <tr>
         <td><code>ValueError</code></td>
-        <td><p><em>description</em></p></td>
+        <td><p>Provides error if data type is not supported.</p></td>
       </tr>
   </tbody>
 </table>
@@ -1407,23 +1407,23 @@ Map            (<span title="ipyleaflet.leaflet.Map">Map</span>)
   <tbody>
     <tr>
       <td><code>_type_</code></td>
-      <td><p><em>description</em></p></td>
+      <td><p>Breaks from if/elif if GeoJson is provided upon initialization.</p></td>
     </tr>
   </tbody>
 </table>
         <details class="quote">
           <summary>Source code in <code>geog510_lab_utils/geog510_lab_utils.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_vector</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;_summary_</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Adds any vector data type supported by GeoPandas to the Map.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        data (_type_): _description_</span>
+<span class="sd">        data (_type_): Any supported data type represented by a file path or a URL.</span>
 
 <span class="sd">    Raises:</span>
-<span class="sd">        ValueError: _description_</span>
+<span class="sd">        ValueError: Provides error if data type is not supported.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        _type_: _description_</span>
+<span class="sd">        _type_: Breaks from if/elif if GeoJson is provided upon initialization.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">import</span><span class="w"> </span><span class="nn">geopandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">gpd</span>
 

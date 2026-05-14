@@ -505,14 +505,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../examples/intro/" class="md-nav__link">
+      <a href="../examples/demo/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Intro
+    Demo
   
 
     
@@ -915,6 +915,7 @@
 <a id="geog510_lab_utils.foliumap"></a>
     <div class="doc doc-contents first">
 
+      <p>Extension of Folium class Map for custom use in geog510_lab_utils</p>
 
 
 
@@ -956,10 +957,10 @@ Map            (<span title="folium.folium.Map">Map</span>)
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">location</span><span class="o">=</span><span class="n">center</span><span class="p">,</span> <span class="n">zoom_start</span><span class="o">=</span><span class="n">zoom</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">add_geojson</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">hover_style</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add GEOJSON to the map.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add GeoJson to the map.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            data (_type_): _description_</span>
+<span class="sd">            data (_type_): Data dictionary representing GeoJson</span>
 <span class="sd">            hover_style (_type_, optional): Initial hover style. Defaults to None.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
@@ -996,7 +997,7 @@ Map            (<span title="folium.folium.Map">Map</span>)
 <span class="sd">            data (_type_): Can be any vector datatype supported by GeoPandas</span>
 
 <span class="sd">        Raises:</span>
-<span class="sd">            ValueError: If datatype is not support by GeoPanda.</span>
+<span class="sd">            ValueError: If datatype is not support by GeoPandas</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            _type_:</span>
@@ -1161,7 +1162,7 @@ Map            (<span title="folium.folium.Map">Map</span>)
 
     <div class="doc doc-contents ">
 
-      <p>Add GEOJSON to the map.</p>
+      <p>Add GeoJson to the map.</p>
 
 <p><strong>Parameters:</strong></p>
 <table>
@@ -1177,7 +1178,7 @@ Map            (<span title="folium.folium.Map">Map</span>)
       <tr>
         <td><code>data</code></td>
         <td><code>_type_</code></td>
-        <td><p><em>description</em></p></td>
+        <td><p>Data dictionary representing GeoJson</p></td>
         <td><em>required</em></td>
       </tr>
       <tr>
@@ -1191,10 +1192,10 @@ Map            (<span title="folium.folium.Map">Map</span>)
         <details class="quote">
           <summary>Source code in <code>geog510_lab_utils/foliumap.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_geojson</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">hover_style</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add GEOJSON to the map.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add GeoJson to the map.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        data (_type_): _description_</span>
+<span class="sd">        data (_type_): Data dictionary representing GeoJson</span>
 <span class="sd">        hover_style (_type_, optional): Initial hover style. Defaults to None.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -1290,7 +1291,7 @@ Map            (<span title="folium.folium.Map">Map</span>)
   <tbody>
       <tr>
         <td><code>ValueError</code></td>
-        <td><p>If datatype is not support by GeoPanda.</p></td>
+        <td><p>If datatype is not support by GeoPandas</p></td>
       </tr>
   </tbody>
 </table>
@@ -1318,7 +1319,7 @@ Map            (<span title="folium.folium.Map">Map</span>)
 <span class="sd">        data (_type_): Can be any vector datatype supported by GeoPandas</span>
 
 <span class="sd">    Raises:</span>
-<span class="sd">        ValueError: If datatype is not support by GeoPanda.</span>
+<span class="sd">        ValueError: If datatype is not support by GeoPandas</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        _type_:</span>
