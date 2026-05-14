@@ -14,4 +14,4 @@
 
 ## Features
 
--   TODO
+-   Lab 6 Requirements
