@@ -4,20 +4,20 @@ import folium
 class Map(folium.Map):
 
     def __init__(self, center=(0, 0), zoom=2, **kwargs):
-        """_summary_
+        """Initializes Map object based on folium.Map
 
         Args:
-            center (tuple, optional): _description_. Defaults to (0, 0).
-            zoom (int, optional): _description_. Defaults to 2.
+            center (tuple, optional): Center of Map. Defaults to (0, 0).
+            zoom (int, optional): Initial zoom level. Defaults to 2.
         """
         super().__init__(location=center, zoom_start=zoom, **kwargs)
 
     def add_geojson(self, data, hover_style=None, **kwargs):
-        """_summary_
+        """Add GEOJSON to the map.
 
         Args:
             data (_type_): _description_
-            hover_style (_type_, optional): _description_. Defaults to None.
+            hover_style (_type_, optional): Initial hover style. Defaults to None.
         """
 
         import geopandas as gpd
@@ -35,10 +35,10 @@ class Map(folium.Map):
         folium.GeoJson(data=geojson, **kwargs).add_to(self)
 
     def add_gdf(self, gdf, **kwargs):
-        """_summary_
+        """Adds GeoDataFrame to Map
 
         Args:
-            gdf (_type_): _description_
+            gdf (_type_): GeoDataFrame to be added to Map
         """
 
         gdf = gdf.to_crs(epsg=4326)
@@ -47,16 +47,16 @@ class Map(folium.Map):
         self.add_geojson(geojson, **kwargs)
 
     def add_vector(self, data, **kwargs):
-        """_summary_
+        """Add vector data to map.
 
         Args:
-            data (_type_): _description_
+            data (_type_): Can be any vector datatype supported by GeoPandas
 
         Raises:
-            ValueError: _description_
+            ValueError: If datatype is not support by GeoPanda.
 
         Returns:
-            _type_: _description_
+            _type_:
         """
         import geopandas as gpd
 
@@ -75,5 +75,5 @@ class Map(folium.Map):
         self.add_gdf(gdf, **kwargs)
 
     def add_layer_control(self):
-        """_summary_"""
+        """Adds Layer Control to Map"""
         folium.LayerControl().add_to(self)
