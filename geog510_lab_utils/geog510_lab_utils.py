@@ -5,16 +5,34 @@ import ipyleaflet
 
 class Map(ipyleaflet.Map):
     def __init__(self, center=[20, 0], zoom=2, height="600px", **kwargs):
+        """_summary test
+
+        Args:
+            center (list, optional): _description_. Defaults to [20, 0].
+            zoom (int, optional): _description_. Defaults to 2.
+            height (str, optional): _description_. Defaults to "600px".
+        """
         super().__init__(center=center, zoom=zoom, **kwargs)
         self.layout.height = height
 
     def add_basemap(self, basemap="OpenTopoMap"):
+        """_summary_
+
+        Args:
+            basemap (str, optional): _description_. Defaults to "OpenTopoMap".
+        """
 
         url = eval(f"ipyleaflet.basemaps.{basemap}").build_url()
         layer = ipyleaflet.TileLayer(url=url, name=basemap)
         self.add_layer(layer)
 
     def add_geojson(self, data, hover_style=None, **kwargs):
+        """_summary_
+
+        Args:
+            data (_type_): _description_
+            hover_style (_type_, optional): _description_. Defaults to None.
+        """
 
         import geopandas as gpd
 
@@ -32,6 +50,11 @@ class Map(ipyleaflet.Map):
         self.add_layer(layer)
 
     def add_gdf(self, gdf, **kwargs):
+        """_summary_
+
+        Args:
+            gdf (_type_): _description_
+        """
 
         gdf = gdf.to_crs(epsg=4326)
         geojson = gdf.__geo_interface__
@@ -39,6 +62,17 @@ class Map(ipyleaflet.Map):
         self.add_geojson(geojson, **kwargs)
 
     def add_vector(self, data, **kwargs):
+        """_summary_
+
+        Args:
+            data (_type_): _description_
+
+        Raises:
+            ValueError: _description_
+
+        Returns:
+            _type_: _description_
+        """
         import geopandas as gpd
 
         if isinstance(data, str):
@@ -56,5 +90,6 @@ class Map(ipyleaflet.Map):
         self.add_gdf(gdf, **kwargs)
 
     def add_layer_control(self):
+        """_summary_"""
         control = ipyleaflet.LayersControl(position="topright")
         self.add_control(control)

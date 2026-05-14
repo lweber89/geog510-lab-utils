@@ -83,4 +83,4 @@ nav:
         - examples/intro.ipynb
     - API Reference:
           - geog510_lab_utils module: geog510_lab_utils.md
-          - common module: common.md
+          - foliumap module: foliumap.md
