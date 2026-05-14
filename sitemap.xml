@@ -2,38 +2,42 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://lweber89.github.io/geog510-lab-utils/</loc>
-         <lastmod>2026-05-12</lastmod>
+         <lastmod>2026-05-14</lastmod>
     </url>
     <url>
          <loc>https://lweber89.github.io/geog510-lab-utils/changelog/</loc>
-         <lastmod>2026-05-12</lastmod>
+         <lastmod>2026-05-14</lastmod>
     </url>
     <url>
          <loc>https://lweber89.github.io/geog510-lab-utils/common/</loc>
-         <lastmod>2026-05-12</lastmod>
+         <lastmod>2026-05-14</lastmod>
     </url>
     <url>
          <loc>https://lweber89.github.io/geog510-lab-utils/contributing/</loc>
-         <lastmod>2026-05-12</lastmod>
+         <lastmod>2026-05-14</lastmod>
     </url>
     <url>
          <loc>https://lweber89.github.io/geog510-lab-utils/faq/</loc>
-         <lastmod>2026-05-12</lastmod>
+         <lastmod>2026-05-14</lastmod>
+    </url>
+    <url>
+         <loc>https://lweber89.github.io/geog510-lab-utils/foliumap/</loc>
+         <lastmod>2026-05-14</lastmod>
     </url>
     <url>
          <loc>https://lweber89.github.io/geog510-lab-utils/geog510_lab_utils/</loc>
-         <lastmod>2026-05-12</lastmod>
+         <lastmod>2026-05-14</lastmod>
     </url>
     <url>
          <loc>https://lweber89.github.io/geog510-lab-utils/installation/</loc>
-         <lastmod>2026-05-12</lastmod>
+         <lastmod>2026-05-14</lastmod>
     </url>
     <url>
          <loc>https://lweber89.github.io/geog510-lab-utils/usage/</loc>
-         <lastmod>2026-05-12</lastmod>
+         <lastmod>2026-05-14</lastmod>
     </url>
     <url>
          <loc>https://lweber89.github.io/geog510-lab-utils/examples/intro/</loc>
-         <lastmod>2026-05-12</lastmod>
+         <lastmod>2026-05-14</lastmod>
     </url>
 </urlset>
