@@ -80,7 +80,7 @@ nav:
     - Changelog: changelog.md
     - Report Issues: https://github.com/lweber89/geog510-lab-utils/issues
     - Examples:
-        - examples/intro.ipynb
+        - examples/demo.ipynb
     - API Reference:
           - geog510_lab_utils module: geog510_lab_utils.md
           - foliumap module: foliumap.md

@@ -1,3 +1,5 @@
+"""Extension of Folium class Map for custom use in geog510_lab_utils"""
+
 import folium
 
 
@@ -13,10 +15,10 @@ class Map(folium.Map):
         super().__init__(location=center, zoom_start=zoom, **kwargs)
 
     def add_geojson(self, data, hover_style=None, **kwargs):
-        """Add GEOJSON to the map.
+        """Add GeoJson to the map.
 
         Args:
-            data (_type_): _description_
+            data (_type_): Data dictionary representing GeoJson
             hover_style (_type_, optional): Initial hover style. Defaults to None.
         """
 
@@ -53,7 +55,7 @@ class Map(folium.Map):
             data (_type_): Can be any vector datatype supported by GeoPandas
 
         Raises:
-            ValueError: If datatype is not support by GeoPanda.
+            ValueError: If datatype is not support by GeoPandas
 
         Returns:
             _type_:

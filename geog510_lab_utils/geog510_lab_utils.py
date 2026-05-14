@@ -1,25 +1,25 @@
-"""Main module."""
+"""Extension of ipyleaflet class Map for custom use in geog510_lab_utils"""
 
 import ipyleaflet
 
 
 class Map(ipyleaflet.Map):
     def __init__(self, center=[20, 0], zoom=2, height="600px", **kwargs):
-        """_summary test
+        """Initialize class Map based on ipyleaflet class Map
 
         Args:
-            center (list, optional): _description_. Defaults to [20, 0].
-            zoom (int, optional): _description_. Defaults to 2.
-            height (str, optional): _description_. Defaults to "600px".
+            center (list, optional): Initial center of map. Defaults to [20, 0].
+            zoom (int, optional): Initial zoom level of map. Defaults to 2.
+            height (str, optional): Initial height of map (in pixels). Defaults to "600px".
         """
         super().__init__(center=center, zoom=zoom, **kwargs)
         self.layout.height = height
 
     def add_basemap(self, basemap="OpenTopoMap"):
-        """_summary_
+        """Adds basemap to Map based on user input.
 
         Args:
-            basemap (str, optional): _description_. Defaults to "OpenTopoMap".
+            basemap (str, optional): Basemap. Defaults to "OpenTopoMap".
         """
 
         url = eval(f"ipyleaflet.basemaps.{basemap}").build_url()
@@ -27,11 +27,11 @@ class Map(ipyleaflet.Map):
         self.add_layer(layer)
 
     def add_geojson(self, data, hover_style=None, **kwargs):
-        """_summary_
+        """_summary_Adds GeoJson to map.
 
         Args:
-            data (_type_): _description_
-            hover_style (_type_, optional): _description_. Defaults to None.
+            data (_type_): Data dictionary representing a GeoJson file
+            hover_style (_type_, optional): Initial hover style of Map. Defaults to None.
         """
 
         import geopandas as gpd
@@ -50,10 +50,10 @@ class Map(ipyleaflet.Map):
         self.add_layer(layer)
 
     def add_gdf(self, gdf, **kwargs):
-        """_summary_
+        """Adds GeoDataFrame to Map.
 
         Args:
-            gdf (_type_): _description_
+            gdf (_type_): Represents GeoDataFrame.
         """
 
         gdf = gdf.to_crs(epsg=4326)
@@ -62,16 +62,16 @@ class Map(ipyleaflet.Map):
         self.add_geojson(geojson, **kwargs)
 
     def add_vector(self, data, **kwargs):
-        """_summary_
+        """Adds any vector data type supported by GeoPandas to the Map.
 
         Args:
-            data (_type_): _description_
+            data (_type_): Any supported data type represented by a file path or a URL.
 
         Raises:
-            ValueError: _description_
+            ValueError: Provides error if data type is not supported.
 
         Returns:
-            _type_: _description_
+            _type_: Breaks from if/elif if GeoJson is provided upon initialization.
         """
         import geopandas as gpd
 
@@ -90,6 +90,6 @@ class Map(ipyleaflet.Map):
         self.add_gdf(gdf, **kwargs)
 
     def add_layer_control(self):
-        """_summary_"""
+        """Add layer control to Map"""
         control = ipyleaflet.LayersControl(position="topright")
         self.add_control(control)
