@@ -1,6 +1,8 @@
 """Extension of ipyleaflet class Map for custom use in geog510_lab_utils"""
 
+import os
 import ipyleaflet
+import ipywidgets as widgets
 
 
 class Map(ipyleaflet.Map):
@@ -93,3 +95,29 @@ class Map(ipyleaflet.Map):
         """Add layer control to Map"""
         control = ipyleaflet.LayersControl(position="topright")
         self.add_control(control)
+
+    def add_raster(self, data_path, name="Raster Layer", colormap=None, opacity=1):
+        """Adds a Cloud Optimized GeoTIFF (COG) or local raster to the map.
+
+        Args:
+            data_path (str): The local path or remote URL to the raster file.
+            name (str, optional): The name to display in the Layer Control.
+                Defaults to 'Raster Layer'.
+            colormap (str or dict, optional): The rio-tiler registered colormap
+                name (e.g., 'viridis', 'terrain') or a dictionary mapping
+                values to colors. Defaults to None.
+            opacity (int, optional):The transparency of the layer from 0 to 1.
+                Defaults to 1
+        """
+
+        from localtileserver import TileClient, get_leaflet_tile_layer
+
+        client = TileClient(data_path)
+
+        tile_layer = get_leaflet_tile_layer(
+            client, name=name, colormap=colormap, opacity=opacity
+        )
+
+        self.add(tile_layer)
+        self.center = client.center()
+        self.zoom = client.default_zoom
