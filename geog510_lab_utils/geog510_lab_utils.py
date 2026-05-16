@@ -152,3 +152,18 @@ class Map(ipyleaflet.Map):
         overlay = VideoOverlay(url=video, bounds=bounds, **kwargs)
 
         self.add(overlay)
+
+    def add_wms_layer(
+        self, url, layers, format="image/png", transparent=True, **kwargs
+    ):
+        """Adds a WMS layer to the map.
+
+        Args:
+            url (str): The WMS service URL.
+            layers (str): The layers to display.
+            **kwargs: Additional keyword arguments for the ipyleaflet.WMSLayer layer.
+        """
+        layer = ipyleaflet.WMSLayer(
+            url=url, layers=layers, format=format, transparent=transparent, **kwargs
+        )
+        self.add(layer)
