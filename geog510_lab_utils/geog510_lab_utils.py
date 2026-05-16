@@ -96,7 +96,9 @@ class Map(ipyleaflet.Map):
         control = ipyleaflet.LayersControl(position="topright")
         self.add_control(control)
 
-    def add_raster(self, data_path, name="Raster Layer", colormap=None, opacity=1):
+    def add_raster(
+        self, data_path, name="Raster Layer", colormap=None, opacity=1, **kwargs
+    ):
         """Adds a Cloud Optimized GeoTIFF (COG) or local raster to the map.
 
         Args:
@@ -115,9 +117,38 @@ class Map(ipyleaflet.Map):
         client = TileClient(data_path)
 
         tile_layer = get_leaflet_tile_layer(
-            client, name=name, colormap=colormap, opacity=opacity
+            client, name=name, colormap=colormap, opacity=opacity, **kwargs
         )
 
         self.add(tile_layer)
         self.center = client.center()
         self.zoom = client.default_zoom
+
+    def add_image(self, image, bounds, **kwargs):
+        """Add static image to Map
+
+        Args:
+            image (str): URL or filename of image
+            bounds (tuple): A tuple of two coordinate tuples:
+                ((south_lat, west_lon), (north_lat, east_lon)).
+            opacity (float): Opacity value
+        """
+        from ipyleaflet import ImageOverlay
+
+        overlay = ImageOverlay(url=image, bounds=bounds, **kwargs)
+
+        self.add(overlay)
+
+    def add_video(self, video, bounds, **kwargs):
+        """Add video to Map
+
+        Args:
+            video (str): URL or filename of video
+            bounds (list): A list of two coordinate lists
+                [[south_lat, west_lon], [north_lat, east_lon]].
+        """
+        from ipyleaflet import VideoOverlay
+
+        overlay = VideoOverlay(url=video, bounds=bounds, **kwargs)
+
+        self.add(overlay)
