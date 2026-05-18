@@ -15,7 +15,7 @@
         <link rel="canonical" href="https://lweber89.github.io/geog510-lab-utils/geog510_lab_utils/">
       
       
-        <link rel="prev" href="../examples/Lab7/">
+        <link rel="prev" href="../examples/Lab8/">
       
       
         <link rel="next" href="../foliumap/">
@@ -556,6 +556,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/Lab8/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab8
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -717,6 +745,17 @@
     <span class="md-ellipsis">
       
         add_basemap()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#geog510_lab_utils.geog510_lab_utils.Map.add_basemap_gui" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        add_basemap_gui()
       
     </span>
   </a>
@@ -932,6 +971,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#geog510_lab_utils.geog510_lab_utils.Map.add_basemap_gui" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        add_basemap_gui()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#geog510_lab_utils.geog510_lab_utils.Map.add_gdf" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1097,14 +1147,46 @@ Map            (<span title="ipyleaflet.leaflet.Map">Map</span>)
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">center</span><span class="o">=</span><span class="n">center</span><span class="p">,</span> <span class="n">zoom</span><span class="o">=</span><span class="n">zoom</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">layout</span><span class="o">.</span><span class="n">height</span> <span class="o">=</span> <span class="n">height</span>
 
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_basemap</span><span class="p">(</span><span class="s2">&quot;OpenStreetMap&quot;</span><span class="p">)</span>
+
     <span class="k">def</span><span class="w"> </span><span class="nf">add_basemap</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">basemap</span><span class="o">=</span><span class="s2">&quot;OpenTopoMap&quot;</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Adds basemap to Map based on user input.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            basemap (str, optional): Basemap. Defaults to &quot;OpenTopoMap&quot;.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">ipyleaflet</span>
 
-        <span class="n">url</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ipyleaflet.basemaps.</span><span class="si">{</span><span class="n">basemap</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">build_url</span><span class="p">()</span>
+        <span class="c1"># 1. Start at the top-level basemaps module</span>
+        <span class="n">bm_object</span> <span class="o">=</span> <span class="n">ipyleaflet</span><span class="o">.</span><span class="n">basemaps</span>
+
+        <span class="c1"># 2. Safely traverse nested names (e.g., &quot;Esri.WorldImagery&quot; -&gt; [&quot;Esri&quot;, &quot;WorldImagery&quot;])</span>
+        <span class="k">for</span> <span class="n">part</span> <span class="ow">in</span> <span class="n">basemap</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">bm_object</span><span class="p">,</span> <span class="n">part</span><span class="p">):</span>
+                <span class="n">bm_object</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">bm_object</span><span class="p">,</span> <span class="n">part</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Basemap component &#39;</span><span class="si">{</span><span class="n">part</span><span class="si">}</span><span class="s2">&#39; from &#39;</span><span class="si">{</span><span class="n">basemap</span><span class="si">}</span><span class="s2">&#39; not found.&quot;</span>
+                <span class="p">)</span>
+
+        <span class="c1"># 3. Determine how to pull the URL depending on what kind of object it is</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">bm_object</span><span class="p">,</span> <span class="s2">&quot;build_url&quot;</span><span class="p">):</span>
+            <span class="c1"># It&#39;s a direct basemap layer (e.g., Esri.WorldImagery or OpenTopoMap)</span>
+            <span class="n">url</span> <span class="o">=</span> <span class="n">bm_object</span><span class="o">.</span><span class="n">build_url</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">bm_object</span><span class="p">,</span> <span class="s2">&quot;Mapnik&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">bm_object</span><span class="o">.</span><span class="n">Mapnik</span><span class="p">,</span> <span class="s2">&quot;build_url&quot;</span><span class="p">):</span>
+            <span class="c1"># It&#39;s a bundle like OpenStreetMap, fallback to its default style</span>
+            <span class="n">url</span> <span class="o">=</span> <span class="n">bm_object</span><span class="o">.</span><span class="n">Mapnik</span><span class="o">.</span><span class="n">build_url</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Fallback: grab the first available sub-style in the bundle</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">first_style</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">bm_object</span><span class="o">.</span><span class="n">values</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">url</span> <span class="o">=</span> <span class="n">first_style</span><span class="o">.</span><span class="n">build_url</span><span class="p">()</span>
+            <span class="k">except</span> <span class="p">(</span><span class="ne">AttributeError</span><span class="p">,</span> <span class="ne">IndexError</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Could not extract a valid URL from basemap &#39;</span><span class="si">{</span><span class="n">basemap</span><span class="si">}</span><span class="s2">&#39;.&quot;</span>
+                <span class="p">)</span>
+
+        <span class="c1"># 4. Create and add the layer to the map</span>
         <span class="n">layer</span> <span class="o">=</span> <span class="n">ipyleaflet</span><span class="o">.</span><span class="n">TileLayer</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">basemap</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">add_layer</span><span class="p">(</span><span class="n">layer</span><span class="p">)</span>
 
@@ -1247,6 +1329,81 @@ Map            (<span title="ipyleaflet.leaflet.Map">Map</span>)
             <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">layers</span><span class="o">=</span><span class="n">layers</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="nb">format</span><span class="p">,</span> <span class="n">transparent</span><span class="o">=</span><span class="n">transparent</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">layer</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_basemap_gui</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="s2">&quot;topright&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Adds a basemap chooser to the map.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            position (str, optional): Defaults to &quot;topright&quot;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">ipywidgets</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">widgets</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">ipyleaflet</span><span class="w"> </span><span class="kn">import</span> <span class="n">WidgetControl</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">display</span>
+
+        <span class="c1"># Initialize widget components</span>
+
+        <span class="c1"># button</span>
+
+        <span class="n">btn</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="n">icon</span><span class="o">=</span><span class="s2">&quot;map&quot;</span><span class="p">,</span> <span class="n">button_style</span><span class="o">=</span><span class="s2">&quot;success&quot;</span><span class="p">)</span>
+        <span class="n">btn</span><span class="o">.</span><span class="n">layout</span><span class="o">.</span><span class="n">width</span> <span class="o">=</span> <span class="s2">&quot;35px&quot;</span>
+
+        <span class="c1"># dropdown</span>
+
+        <span class="n">dropdown</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Dropdown</span><span class="p">(</span>
+            <span class="n">options</span><span class="o">=</span><span class="p">[</span>
+                <span class="s2">&quot;OpenStreetMap&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;OpenTopoMap&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;Esri.WorldImagery&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;Esri.NatGeoWorldMap&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;CartoDB.Positron&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;CartoDB.DarkMatter&quot;</span><span class="p">,</span>
+            <span class="p">],</span>
+            <span class="n">value</span><span class="o">=</span><span class="s2">&quot;OpenStreetMap&quot;</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Basemap:&quot;</span><span class="p">,</span>
+            <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;description_width&quot;</span><span class="p">:</span> <span class="s2">&quot;initial&quot;</span><span class="p">},</span>
+        <span class="p">)</span>
+        <span class="n">dropdown</span><span class="o">.</span><span class="n">layout</span><span class="o">.</span><span class="n">width</span> <span class="o">=</span> <span class="s2">&quot;350px&quot;</span>
+
+        <span class="c1"># Create a container (HBox) for the widget components</span>
+        <span class="n">hbox</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">HBox</span><span class="p">([</span><span class="n">btn</span><span class="p">])</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">on_button_clicked</span><span class="p">(</span><span class="n">b</span><span class="p">):</span>
+            <span class="c1"># Check the current state</span>
+
+            <span class="k">if</span> <span class="n">b</span><span class="o">.</span><span class="n">button_style</span> <span class="o">==</span> <span class="s2">&quot;success&quot;</span><span class="p">:</span>
+                <span class="n">b</span><span class="o">.</span><span class="n">button_style</span> <span class="o">=</span> <span class="s2">&quot;danger&quot;</span>
+                <span class="n">b</span><span class="o">.</span><span class="n">icon</span> <span class="o">=</span> <span class="s2">&quot;times&quot;</span>
+                <span class="n">hbox</span><span class="o">.</span><span class="n">children</span> <span class="o">=</span> <span class="p">[</span><span class="n">dropdown</span><span class="p">,</span> <span class="n">btn</span><span class="p">]</span>
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">b</span><span class="o">.</span><span class="n">button_style</span> <span class="o">=</span> <span class="s2">&quot;success&quot;</span>
+                <span class="n">b</span><span class="o">.</span><span class="n">icon</span> <span class="o">=</span> <span class="s2">&quot;map&quot;</span>
+                <span class="n">hbox</span><span class="o">.</span><span class="n">children</span> <span class="o">=</span> <span class="p">[</span><span class="n">btn</span><span class="p">]</span>
+
+        <span class="n">btn</span><span class="o">.</span><span class="n">on_click</span><span class="p">(</span><span class="n">on_button_clicked</span><span class="p">)</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">on_dropdown_change</span><span class="p">(</span><span class="n">change</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">change</span><span class="p">[</span><span class="s2">&quot;new&quot;</span><span class="p">]:</span>
+
+                <span class="n">basemap_names</span> <span class="o">=</span> <span class="n">dropdown</span><span class="o">.</span><span class="n">options</span>
+
+                <span class="n">layers_to_remove</span> <span class="o">=</span> <span class="p">[</span>
+                    <span class="n">layer</span>
+                    <span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">layers</span>
+                    <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">layer</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">in</span> <span class="n">basemap_names</span>
+                <span class="p">]</span>
+
+                <span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="n">layers_to_remove</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">remove_layer</span><span class="p">(</span><span class="n">layer</span><span class="p">)</span>
+
+                <span class="c1"># 4. Add the new one</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">add_basemap</span><span class="p">(</span><span class="n">change</span><span class="p">[</span><span class="s2">&quot;new&quot;</span><span class="p">])</span>
+
+        <span class="n">dropdown</span><span class="o">.</span><span class="n">observe</span><span class="p">(</span><span class="n">on_dropdown_change</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="s2">&quot;value&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Create a control, position it and add to map</span>
+        <span class="n">control</span> <span class="o">=</span> <span class="n">ipyleaflet</span><span class="o">.</span><span class="n">WidgetControl</span><span class="p">(</span><span class="n">widget</span><span class="o">=</span><span class="n">hbox</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="n">position</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">control</span><span class="p">)</span>
 </code></pre></div>
         </details>
 
@@ -1322,6 +1479,8 @@ Map            (<span title="ipyleaflet.leaflet.Map">Map</span>)
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">center</span><span class="o">=</span><span class="n">center</span><span class="p">,</span> <span class="n">zoom</span><span class="o">=</span><span class="n">zoom</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">layout</span><span class="o">.</span><span class="n">height</span> <span class="o">=</span> <span class="n">height</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">add_basemap</span><span class="p">(</span><span class="s2">&quot;OpenStreetMap&quot;</span><span class="p">)</span>
 </code></pre></div>
         </details>
     </div>
@@ -1371,10 +1530,157 @@ Map            (<span title="ipyleaflet.leaflet.Map">Map</span>)
 <span class="sd">    Args:</span>
 <span class="sd">        basemap (str, optional): Basemap. Defaults to &quot;OpenTopoMap&quot;.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">ipyleaflet</span>
 
-    <span class="n">url</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ipyleaflet.basemaps.</span><span class="si">{</span><span class="n">basemap</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">build_url</span><span class="p">()</span>
+    <span class="c1"># 1. Start at the top-level basemaps module</span>
+    <span class="n">bm_object</span> <span class="o">=</span> <span class="n">ipyleaflet</span><span class="o">.</span><span class="n">basemaps</span>
+
+    <span class="c1"># 2. Safely traverse nested names (e.g., &quot;Esri.WorldImagery&quot; -&gt; [&quot;Esri&quot;, &quot;WorldImagery&quot;])</span>
+    <span class="k">for</span> <span class="n">part</span> <span class="ow">in</span> <span class="n">basemap</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">bm_object</span><span class="p">,</span> <span class="n">part</span><span class="p">):</span>
+            <span class="n">bm_object</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">bm_object</span><span class="p">,</span> <span class="n">part</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Basemap component &#39;</span><span class="si">{</span><span class="n">part</span><span class="si">}</span><span class="s2">&#39; from &#39;</span><span class="si">{</span><span class="n">basemap</span><span class="si">}</span><span class="s2">&#39; not found.&quot;</span>
+            <span class="p">)</span>
+
+    <span class="c1"># 3. Determine how to pull the URL depending on what kind of object it is</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">bm_object</span><span class="p">,</span> <span class="s2">&quot;build_url&quot;</span><span class="p">):</span>
+        <span class="c1"># It&#39;s a direct basemap layer (e.g., Esri.WorldImagery or OpenTopoMap)</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">bm_object</span><span class="o">.</span><span class="n">build_url</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">bm_object</span><span class="p">,</span> <span class="s2">&quot;Mapnik&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">bm_object</span><span class="o">.</span><span class="n">Mapnik</span><span class="p">,</span> <span class="s2">&quot;build_url&quot;</span><span class="p">):</span>
+        <span class="c1"># It&#39;s a bundle like OpenStreetMap, fallback to its default style</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">bm_object</span><span class="o">.</span><span class="n">Mapnik</span><span class="o">.</span><span class="n">build_url</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># Fallback: grab the first available sub-style in the bundle</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">first_style</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">bm_object</span><span class="o">.</span><span class="n">values</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">url</span> <span class="o">=</span> <span class="n">first_style</span><span class="o">.</span><span class="n">build_url</span><span class="p">()</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">AttributeError</span><span class="p">,</span> <span class="ne">IndexError</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Could not extract a valid URL from basemap &#39;</span><span class="si">{</span><span class="n">basemap</span><span class="si">}</span><span class="s2">&#39;.&quot;</span>
+            <span class="p">)</span>
+
+    <span class="c1"># 4. Create and add the layer to the map</span>
     <span class="n">layer</span> <span class="o">=</span> <span class="n">ipyleaflet</span><span class="o">.</span><span class="n">TileLayer</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">basemap</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">add_layer</span><span class="p">(</span><span class="n">layer</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 id="geog510_lab_utils.geog510_lab_utils.Map.add_basemap_gui" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">add_basemap_gui</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="s1">&#39;topright&#39;</span><span class="p">)</span></code>
+
+
+<a href="#geog510_lab_utils.geog510_lab_utils.Map.add_basemap_gui" class="headerlink" title="Permanent link">&para;</a></h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Adds a basemap chooser to the map.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>position</code></td>
+        <td><code>str</code></td>
+        <td><p>Defaults to "topright".</p></td>
+        <td><code>&#39;topright&#39;</code></td>
+      </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>geog510_lab_utils/geog510_lab_utils.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_basemap_gui</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="s2">&quot;topright&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Adds a basemap chooser to the map.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        position (str, optional): Defaults to &quot;topright&quot;.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">ipywidgets</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">widgets</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">ipyleaflet</span><span class="w"> </span><span class="kn">import</span> <span class="n">WidgetControl</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">display</span>
+
+    <span class="c1"># Initialize widget components</span>
+
+    <span class="c1"># button</span>
+
+    <span class="n">btn</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="n">icon</span><span class="o">=</span><span class="s2">&quot;map&quot;</span><span class="p">,</span> <span class="n">button_style</span><span class="o">=</span><span class="s2">&quot;success&quot;</span><span class="p">)</span>
+    <span class="n">btn</span><span class="o">.</span><span class="n">layout</span><span class="o">.</span><span class="n">width</span> <span class="o">=</span> <span class="s2">&quot;35px&quot;</span>
+
+    <span class="c1"># dropdown</span>
+
+    <span class="n">dropdown</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Dropdown</span><span class="p">(</span>
+        <span class="n">options</span><span class="o">=</span><span class="p">[</span>
+            <span class="s2">&quot;OpenStreetMap&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;OpenTopoMap&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Esri.WorldImagery&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Esri.NatGeoWorldMap&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;CartoDB.Positron&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;CartoDB.DarkMatter&quot;</span><span class="p">,</span>
+        <span class="p">],</span>
+        <span class="n">value</span><span class="o">=</span><span class="s2">&quot;OpenStreetMap&quot;</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Basemap:&quot;</span><span class="p">,</span>
+        <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;description_width&quot;</span><span class="p">:</span> <span class="s2">&quot;initial&quot;</span><span class="p">},</span>
+    <span class="p">)</span>
+    <span class="n">dropdown</span><span class="o">.</span><span class="n">layout</span><span class="o">.</span><span class="n">width</span> <span class="o">=</span> <span class="s2">&quot;350px&quot;</span>
+
+    <span class="c1"># Create a container (HBox) for the widget components</span>
+    <span class="n">hbox</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">HBox</span><span class="p">([</span><span class="n">btn</span><span class="p">])</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">on_button_clicked</span><span class="p">(</span><span class="n">b</span><span class="p">):</span>
+        <span class="c1"># Check the current state</span>
+
+        <span class="k">if</span> <span class="n">b</span><span class="o">.</span><span class="n">button_style</span> <span class="o">==</span> <span class="s2">&quot;success&quot;</span><span class="p">:</span>
+            <span class="n">b</span><span class="o">.</span><span class="n">button_style</span> <span class="o">=</span> <span class="s2">&quot;danger&quot;</span>
+            <span class="n">b</span><span class="o">.</span><span class="n">icon</span> <span class="o">=</span> <span class="s2">&quot;times&quot;</span>
+            <span class="n">hbox</span><span class="o">.</span><span class="n">children</span> <span class="o">=</span> <span class="p">[</span><span class="n">dropdown</span><span class="p">,</span> <span class="n">btn</span><span class="p">]</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">b</span><span class="o">.</span><span class="n">button_style</span> <span class="o">=</span> <span class="s2">&quot;success&quot;</span>
+            <span class="n">b</span><span class="o">.</span><span class="n">icon</span> <span class="o">=</span> <span class="s2">&quot;map&quot;</span>
+            <span class="n">hbox</span><span class="o">.</span><span class="n">children</span> <span class="o">=</span> <span class="p">[</span><span class="n">btn</span><span class="p">]</span>
+
+    <span class="n">btn</span><span class="o">.</span><span class="n">on_click</span><span class="p">(</span><span class="n">on_button_clicked</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">on_dropdown_change</span><span class="p">(</span><span class="n">change</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">change</span><span class="p">[</span><span class="s2">&quot;new&quot;</span><span class="p">]:</span>
+
+            <span class="n">basemap_names</span> <span class="o">=</span> <span class="n">dropdown</span><span class="o">.</span><span class="n">options</span>
+
+            <span class="n">layers_to_remove</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">layer</span>
+                <span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">layers</span>
+                <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">layer</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">in</span> <span class="n">basemap_names</span>
+            <span class="p">]</span>
+
+            <span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="n">layers_to_remove</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">remove_layer</span><span class="p">(</span><span class="n">layer</span><span class="p">)</span>
+
+            <span class="c1"># 4. Add the new one</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_basemap</span><span class="p">(</span><span class="n">change</span><span class="p">[</span><span class="s2">&quot;new&quot;</span><span class="p">])</span>
+
+    <span class="n">dropdown</span><span class="o">.</span><span class="n">observe</span><span class="p">(</span><span class="n">on_dropdown_change</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="s2">&quot;value&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Create a control, position it and add to map</span>
+    <span class="n">control</span> <span class="o">=</span> <span class="n">ipyleaflet</span><span class="o">.</span><span class="n">WidgetControl</span><span class="p">(</span><span class="n">widget</span><span class="o">=</span><span class="n">hbox</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="n">position</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">control</span><span class="p">)</span>
 </code></pre></div>
         </details>
     </div>
