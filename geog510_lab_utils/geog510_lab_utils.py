@@ -17,14 +17,46 @@ class Map(ipyleaflet.Map):
         super().__init__(center=center, zoom=zoom, **kwargs)
         self.layout.height = height
 
+        self.add_basemap("OpenStreetMap")
+
     def add_basemap(self, basemap="OpenTopoMap"):
         """Adds basemap to Map based on user input.
 
         Args:
             basemap (str, optional): Basemap. Defaults to "OpenTopoMap".
         """
+        import ipyleaflet
 
-        url = eval(f"ipyleaflet.basemaps.{basemap}").build_url()
+        # 1. Start at the top-level basemaps module
+        bm_object = ipyleaflet.basemaps
+
+        # 2. Safely traverse nested names (e.g., "Esri.WorldImagery" -> ["Esri", "WorldImagery"])
+        for part in basemap.split("."):
+            if hasattr(bm_object, part):
+                bm_object = getattr(bm_object, part)
+            else:
+                raise ValueError(
+                    f"Basemap component '{part}' from '{basemap}' not found."
+                )
+
+        # 3. Determine how to pull the URL depending on what kind of object it is
+        if hasattr(bm_object, "build_url"):
+            # It's a direct basemap layer (e.g., Esri.WorldImagery or OpenTopoMap)
+            url = bm_object.build_url()
+        elif hasattr(bm_object, "Mapnik") and hasattr(bm_object.Mapnik, "build_url"):
+            # It's a bundle like OpenStreetMap, fallback to its default style
+            url = bm_object.Mapnik.build_url()
+        else:
+            # Fallback: grab the first available sub-style in the bundle
+            try:
+                first_style = list(bm_object.values())[0]
+                url = first_style.build_url()
+            except (AttributeError, IndexError):
+                raise AttributeError(
+                    f"Could not extract a valid URL from basemap '{basemap}'."
+                )
+
+        # 4. Create and add the layer to the map
         layer = ipyleaflet.TileLayer(url=url, name=basemap)
         self.add_layer(layer)
 
@@ -167,3 +199,78 @@ class Map(ipyleaflet.Map):
             url=url, layers=layers, format=format, transparent=transparent, **kwargs
         )
         self.add(layer)
+
+    def add_basemap_gui(self, position="topright"):
+        """Adds a basemap chooser to the map.
+
+        Args:
+            position (str, optional): Defaults to "topright".
+        """
+        import ipywidgets as widgets
+        from ipyleaflet import WidgetControl
+        from IPython.display import display
+
+        # Initialize widget components
+
+        # button
+
+        btn = widgets.Button(icon="map", button_style="success")
+        btn.layout.width = "35px"
+
+        # dropdown
+
+        dropdown = widgets.Dropdown(
+            options=[
+                "OpenStreetMap",
+                "OpenTopoMap",
+                "Esri.WorldImagery",
+                "Esri.NatGeoWorldMap",
+                "CartoDB.Positron",
+                "CartoDB.DarkMatter",
+            ],
+            value="OpenStreetMap",
+            description="Basemap:",
+            style={"description_width": "initial"},
+        )
+        dropdown.layout.width = "350px"
+
+        # Create a container (HBox) for the widget components
+        hbox = widgets.HBox([btn])
+
+        def on_button_clicked(b):
+            # Check the current state
+
+            if b.button_style == "success":
+                b.button_style = "danger"
+                b.icon = "times"
+                hbox.children = [dropdown, btn]
+
+            else:
+                b.button_style = "success"
+                b.icon = "map"
+                hbox.children = [btn]
+
+        btn.on_click(on_button_clicked)
+
+        def on_dropdown_change(change):
+            if change["new"]:
+
+                basemap_names = dropdown.options
+
+                layers_to_remove = [
+                    layer
+                    for layer in self.layers
+                    if getattr(layer, "name", None) in basemap_names
+                ]
+
+                for layer in layers_to_remove:
+                    self.remove_layer(layer)
+
+                # 4. Add the new one
+                self.add_basemap(change["new"])
+
+        dropdown.observe(on_dropdown_change, names="value")
+
+        # Create a control, position it and add to map
+        control = ipyleaflet.WidgetControl(widget=hbox, position=position)
+        self.add(control)

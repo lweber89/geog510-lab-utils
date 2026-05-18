@@ -47,10 +47,10 @@ plugins:
     - mkdocs-jupyter:
           include_source: True
           ignore_h1_titles: True
-          execute: false
+          execute: True
           allow_errors: false
           ignore: ["conf.py"]
-          execute_ignore: ["*ignore.ipynb"]
+          execute_ignore: ["examples/Lab7.ipynb"]
 
 markdown_extensions:
     - admonition
@@ -82,6 +82,7 @@ nav:
     - Examples:
         - examples/demo.ipynb
         - examples/Lab7.ipynb
+        - examples/Lab8.ipynb
     - API Reference:
           - geog510_lab_utils module: geog510_lab_utils.md
           - foliumap module: foliumap.md
